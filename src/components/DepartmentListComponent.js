@@ -1,5 +1,5 @@
 import React from 'react';
-import DepartmentItem from './DepartmentItem';
+import DepartmentItem from './DepartmentItemComponent';
 
 const DepartmentList = (props) => {
   const department = props.departments.map(d => {return <DepartmentItem key={d.id} department={d} />});

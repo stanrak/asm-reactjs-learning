@@ -7,7 +7,8 @@ import Payroll from './PayrollComponent';
 import RenderStaff from './StaffComponent';
 import { Switch, Redirect, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStaffs } from '../redux/fetchStaffs';
+import { fetchDepartments, fetchStaffs } from '../redux/fetch';
+import LoadingSpinner from './LoadingSpinnerComponent';
 
 const mapStateToProps = state => ({
   departments: state.departments,
@@ -16,7 +17,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchStaffs: () => { dispatch(fetchStaffs()) }
+  fetchStaffs: () => { dispatch(fetchStaffs()) },
+  fetchDepartments: () => { dispatch(fetchDepartments()) }
 });
 
 class Main extends Component {
@@ -28,14 +30,18 @@ class Main extends Component {
   //     staffs: [...this.state.staffs, newStaff]
   //   });
   // }
+
+  // fetch staffs and departments's data
   componentDidMount() {
-    const { fetchStaffs } = this.props;
+    const { fetchStaffs, fetchDepartments } = this.props;
     fetchStaffs();
+    fetchDepartments();
   }
 
   render() {
     const { departments, staffs } = this.props;
     console.log("render Main's staffs: ", this.props.staffs);
+    console.log("render Main's departments: ", this.props.departments);
 
     const StaffWithId = ({match}) => {
       const id = match.params.staffId;
@@ -44,15 +50,17 @@ class Main extends Component {
         <RenderStaff staff={staff}/>
       );
     }
+    
+    if(staffs.isLoading === true) return <LoadingSpinner />
 
     return (
       <div>
         <Header />
         <Switch>
-          <Route exact path="/staffs" component={() => <StaffList staffs={staffs.staffs} />} />
+          <Route exact path="/staffs" component={() => <StaffList staffs={staffs} />} />
           <Route path="/staffs/:staffId" component={StaffWithId} />
-          <Route exact path="/departments" component={() => <DepartmentList departments={departments.departments} />} />
-          <Route exact path="/payroll" component={() => <Payroll staffs={staffs.staffs} />} />
+          <Route exact path="/departments" component={() => <DepartmentList departments={departments} />} />
+          <Route exact path="/payroll" component={() => <Payroll staffs={staffs} />} />
           <Redirect to="/staffs" />
         </Switch>
         <Footer />

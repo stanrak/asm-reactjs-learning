@@ -18,9 +18,9 @@ export const departmentsFetchLoading = () => ({
   type: ActionTypes.DEPARTMENTS_FETCH_LOADING
 });
 
-export const departmentsFetchSuccess = (staffs) => ({
+export const departmentsFetchSuccess = (departments) => ({
   type: ActionTypes.DEPARTMENTS_FETCH_SUCCESS,
-  payload: staffs
+  payload: departments
 });
 
 export const departmentsFetchError = (err) => ({

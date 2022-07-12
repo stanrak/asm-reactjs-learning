@@ -3,14 +3,11 @@ import { staffsFetchLoading, staffsFetchSuccess, staffsFetchError} from './Actio
 
 // fetch from API
 export const fetchStaffs = () => dispatch => {
-  dispatch(staffsFetchLoading(true));
+  dispatch(staffsFetchLoading());
 
-  return fetch(baseUrl + 'staffs')
+  fetch(baseUrl + 'staffs')
     .then(res => res.json())
     .then(res => {
-      if (res.error) {
-        throw (res.error);
-      }
       dispatch(staffsFetchSuccess(res.staffs));
       return res.staffs;
     })

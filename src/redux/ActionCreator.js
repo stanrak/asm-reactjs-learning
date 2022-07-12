@@ -27,3 +27,17 @@ export const departmentsFetchError = (err) => ({
   type: ActionTypes.DEPARTMENTS_FETCH_ERROR,
   payload: err
 });
+
+export const staffsInDeptFetchLoading = () => ({
+  type: ActionTypes.STAFFS_IN_DEPT_FETCH_LOADING
+});
+
+export const staffsInDeptFetchSuccess = (departments) => ({
+  type: ActionTypes.STAFFS_IN_DEPT_FETCH_SUCCESS,
+  payload: departments
+});
+
+export const staffsInDeptFetchError = (err) => ({
+  type: ActionTypes.STAFFS_IN_DEPT_FETCH_ERROR,
+  payload: err
+});

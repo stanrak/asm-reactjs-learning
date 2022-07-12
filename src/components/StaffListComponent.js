@@ -206,7 +206,8 @@ class StaffList extends Component {
   // render
   render() {
     console.log("render object staffs: ", this.props.staffs);
-    const staff = this.props.staffs.staffs.map(s => { return <StaffItem staff={s} key={s.id} /> });
+
+    const staff = this.props.staffs.map(s => { return <StaffItem staff={s} key={s.id} /> });
     
     return (
       <div className='container'>

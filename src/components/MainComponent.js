@@ -45,22 +45,26 @@ class Main extends Component {
 
     const StaffWithId = ({match}) => {
       const id = match.params.staffId;
-      const staff = staffs.staffs.find(s => s.id === parseInt(id,10));
+      const staff = staffs.staffs.find(s => s.id === parseInt(id, 10));
+      console.log("staff voi id: ", staff.departmentId);
+      const department = departments.departments.find(d => d.id === staff.departmentId);
+      console.log("department voi id: ", department);
       return (
-        <RenderStaff staff={staff}/>
+        <RenderStaff staff={staff} department={department} />
       );
     }
     
-    if(staffs.isLoading === true) return <LoadingSpinner />
+    if (staffs.isLoading === true) return <LoadingSpinner />
+    if (departments.isLoading === true) return <LoadingSpinner />
 
     return (
       <div>
         <Header />
         <Switch>
-          <Route exact path="/staffs" component={() => <StaffList staffs={staffs} />} />
+          <Route exact path="/staffs" component={() => <StaffList staffs={staffs.staffs} />} />
           <Route path="/staffs/:staffId" component={StaffWithId} />
-          <Route exact path="/departments" component={() => <DepartmentList departments={departments} />} />
-          <Route exact path="/payroll" component={() => <Payroll staffs={staffs} />} />
+          <Route exact path="/departments" component={() => <DepartmentList departments={departments.departments} />} />
+          <Route exact path="/payroll" component={() => <Payroll staffs={staffs.staffs} />} />
           <Redirect to="/staffs" />
         </Switch>
         <Footer />

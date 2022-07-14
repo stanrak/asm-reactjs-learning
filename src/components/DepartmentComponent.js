@@ -20,7 +20,7 @@ class RenderDepartment extends Component {
   componentDidMount() {
     const { id, fetchStaffsInDept, fetchDepartments } = this.props;
     fetchDepartments();
-    fetchStaffsInDept(id);
+    fetchStaffsInDept("Dept02");
   }
 
   render() {

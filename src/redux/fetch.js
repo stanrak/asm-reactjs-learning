@@ -37,9 +37,8 @@ export const fetchDepartments = () => dispatch => {
 
 // fetch Staffs in a Department from API
 export const fetchStaffsInDept = (id) => {
-  console.log("id la: ", id);
+  id = "Dept02";
   return dispatch => {
-    console.log("id cua fetchStaffInDept la: ", id);
     dispatch(staffsInDeptFetchLoading());
 
     fetch(baseUrl + 'departments/' + id)

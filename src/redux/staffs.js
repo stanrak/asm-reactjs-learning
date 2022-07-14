@@ -13,6 +13,8 @@ export const Staffs = (state = {
       return { ...state, isLoading: false, errMess: null, staffs: action.payload };
     case ActionTypes.STAFFS_FETCH_ERROR:
       return { ...state, isLoading: false, errMess: action.payload };
+    default:
+      return state;
   }
 }
 

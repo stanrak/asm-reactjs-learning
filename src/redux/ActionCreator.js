@@ -64,6 +64,13 @@ export const salariesFetchError = (err) => ({
   payload: err
 });
 
+// change staffs to make a new staff list
+
+export const staffsNewList = (input) => ({
+  type: ActionTypes.STAFFS_NEW_LIST,
+  payload: input
+})
+
 // post Staffs
 
 export const staffsPostLoading = () => ({

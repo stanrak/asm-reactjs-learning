@@ -29,15 +29,15 @@ class RenderDepartment extends Component {
     let staff, departmentName;
 
     if (staffsInDept.isLoading === true || departments.isLoading === true) return <LoadingSpinner />
-
+    
     const department = departments.departments.find(d => d.id === id);
-    if (department !== undefined) {departmentName = department.name}
+    if (departments.errMess !== null) { departmentName = <div><p></p></div> }
+    else if (department === undefined) { departmentName = <div><p></p></div> }
+    else { departmentName = department.name }
 
-    if (staffsInDept.staffsInDept.length === 0) {
-      staff = <div><p>Phòng ban này hiện chưa có nhân viên</p></div>
-    } else {
-      staff = staffsInDept.staffsInDept.map(s => { return <StaffItem staff={s} key={s.id} /> });
-    }
+    if (staffsInDept.errMess !== null) { staff = <div><p>Kết nối tới server bị lỗi, các bạn chờ 30s rồi tải lại, nếu không được thì chờ 1h rồi tải lại</p></div> }
+    else if (staffsInDept.staffsInDept.length === 0) { staff = <div><p>Phòng ban này hiện chưa có nhân viên</p></div> }
+    else { staff = staffsInDept.staffsInDept.map(s => { return <StaffItem staff={s} key={s.id} /> })}
 
     return (
       <div className="container-fluid">

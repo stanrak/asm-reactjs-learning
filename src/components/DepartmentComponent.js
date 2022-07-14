@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchDepartments: () => { dispatch(fetchDepartments()) },
-  fetchStaffsInDept: () => { dispatch(fetchStaffsInDept()) }
+  fetchStaffsInDept: (id) => { dispatch(fetchStaffsInDept(id)) }
 });
 
 class RenderDepartment extends Component {
@@ -43,7 +43,7 @@ class RenderDepartment extends Component {
       <div className="container-fluid">
         <div className='row m-3'>
           <Breadcrumb>
-            <BreadcrumbItem><Link to='/staffs'>Nhân viên</Link></BreadcrumbItem>
+            <BreadcrumbItem><Link to='/departments'>Phòng ban</Link></BreadcrumbItem>
             <BreadcrumbItem active>{departmentName}</BreadcrumbItem>
           </Breadcrumb>
         </div>

@@ -1,28 +1,41 @@
 import React, { Component } from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
-import { Link } from "react-router-dom";
 import StaffItem from './StaffItemComponent';
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { fetchStaffsInDept, fetchDepartments } from '../redux/fetch';
+import LoadingSpinner from './LoadingSpinnerComponent';
+
+const mapStateToProps = state => ({
+  staffsInDept: state.staffsInDept,
+  departments: state.departments
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchDepartments: () => { dispatch(fetchDepartments()) },
+  fetchStaffsInDept: () => { dispatch(fetchStaffsInDept()) }
+});
 
 class RenderDepartment extends Component {
-  constructor(props) {
-    super(props);
-    this.renderStaff = this.renderStaff.bind(this);
-  }
-
-  renderStaff() {
-    const staffs = this.props.staffsInDept;
-    console.log("staffs cua phong ban: ", staffs.length);
-    
+  componentDidMount() {
+    const { id, fetchStaffsInDept, fetchDepartments } = this.props;
+    fetchDepartments();
+    fetchStaffsInDept(id);
   }
 
   render() {
-    const { staffsInDept, department } = this.props;
-    let staff;
+    const { id, staffsInDept, departments } = this.props;
+    let staff, departmentName;
 
-    if (staffsInDept.length === 0) {
+    if (staffsInDept.isLoading === true || departments.isLoading === true) return <LoadingSpinner />
+
+    const department = departments.departments.find(d => d.id === id);
+    if (department !== undefined) {departmentName = department.name}
+
+    if (staffsInDept.staffsInDept.length === 0) {
       staff = <div><p>Phòng ban này hiện chưa có nhân viên</p></div>
     } else {
-      staff = staffsInDept.map(s => { return <StaffItem staff={s} key={s.id} /> });
+      staff = staffsInDept.staffsInDept.map(s => { return <StaffItem staff={s} key={s.id} /> });
     }
 
     return (
@@ -30,7 +43,7 @@ class RenderDepartment extends Component {
         <div className='row m-3'>
           <Breadcrumb>
             <BreadcrumbItem><Link to='/staffs'>Nhân viên</Link></BreadcrumbItem>
-            <BreadcrumbItem active>{department.name}</BreadcrumbItem>
+            <BreadcrumbItem active>{departmentName}</BreadcrumbItem>
           </Breadcrumb>
         </div>
         <div className='row m-3 justify-content-between'>
@@ -46,4 +59,4 @@ class RenderDepartment extends Component {
   }
 }
 
-export default RenderDepartment;
+export default connect(mapStateToProps, mapDispatchToProps)(RenderDepartment);

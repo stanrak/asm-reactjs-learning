@@ -1,5 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 
+// fetch Staffs
+
 export const staffsFetchLoading = () => ({
   type: ActionTypes.STAFFS_FETCH_LOADING
 });
@@ -13,6 +15,8 @@ export const staffsFetchError = (err) => ({
   type: ActionTypes.STAFFS_FETCH_ERROR,
   payload: err
 });
+
+// fetch Departments
 
 export const departmentsFetchLoading = () => ({
   type: ActionTypes.DEPARTMENTS_FETCH_LOADING
@@ -28,16 +32,50 @@ export const departmentsFetchError = (err) => ({
   payload: err
 });
 
+// fetch Staffs in a Department
+
 export const staffsInDeptFetchLoading = () => ({
   type: ActionTypes.STAFFS_IN_DEPT_FETCH_LOADING
 });
 
-export const staffsInDeptFetchSuccess = (departments) => ({
+export const staffsInDeptFetchSuccess = (staffsInDept) => ({
   type: ActionTypes.STAFFS_IN_DEPT_FETCH_SUCCESS,
-  payload: departments
+  payload: staffsInDept
 });
 
 export const staffsInDeptFetchError = (err) => ({
   type: ActionTypes.STAFFS_IN_DEPT_FETCH_ERROR,
+  payload: err
+});
+
+// fetch Staff's Salaries
+
+export const salariesFetchLoading = () => ({
+  type: ActionTypes.SALARIES_FETCH_LOADING
+});
+
+export const salariesFetchSuccess = (salaries) => ({
+  type: ActionTypes.SALARIES_FETCH_SUCCESS,
+  payload: salaries
+});
+
+export const salariesFetchError = (err) => ({
+  type: ActionTypes.SALARIES_FETCH_ERROR,
+  payload: err
+});
+
+// post Staffs
+
+export const staffsPostLoading = () => ({
+  type: ActionTypes.STAFFS_POST_LOADING
+});
+
+export const staffsPostSuccess = (addStaffs) => ({
+  type: ActionTypes.STAFFS_POST_SUCCESS,
+  payload: addStaffs
+});
+
+export const staffsPostError = (err) => ({
+  type: ActionTypes.STAFFS_POST_ERROR,
   payload: err
 });

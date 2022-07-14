@@ -19,8 +19,9 @@ const mapDispatchToProps = dispatch => ({
 class RenderDepartment extends Component {
   componentDidMount() {
     const { id, fetchStaffsInDept, fetchDepartments } = this.props;
+    console.log("id cua componentdidmount la: ", id);
     fetchDepartments();
-    fetchStaffsInDept("Dept02");
+    fetchStaffsInDept(id);
   }
 
   render() {

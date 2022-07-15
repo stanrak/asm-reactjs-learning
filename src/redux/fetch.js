@@ -36,21 +36,18 @@ export const fetchDepartments = () => dispatch => {
 }
 
 // fetch Staffs in a Department from API
-export const fetchStaffsInDept = (id) => {
-  console.log("id cua fetch: ", id);
-  return dispatch => {
-    dispatch(staffsInDeptFetchLoading());
+export const fetchStaffsInDept = id => dispatch => {
+  dispatch(staffsInDeptFetchLoading());
 
-    fetch(baseUrl + 'departments/' + id)
-      .then(res => res.json())
-      .then(res => {
-        dispatch(staffsInDeptFetchSuccess(res));
-        return res.staffsInDept;
-      })
-      .catch(error => {
-        dispatch(staffsInDeptFetchError(error));
-      });
-  }
+  fetch(baseUrl + 'departments/' + id)
+    .then(res => res.json())
+    .then(res => {
+      dispatch(staffsInDeptFetchSuccess(res));
+      return res.staffsInDept;
+    })
+    .catch(error => {
+      dispatch(staffsInDeptFetchError(error));
+    });
 }
 
 // fetch Salary from API
@@ -69,22 +66,26 @@ export const fetchSalaries = () => dispatch => {
 }
 
 // post Staffs to API
-export const postStaffs = (staffs) => dispatch => {
+export const postStaff = newStaff => {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: staffs
+    body: JSON.stringify(newStaff)
   };
 
-  dispatch(staffsPostLoading());
+  return (
+    dispatch => {
+      dispatch(staffsPostLoading());
 
-  fetch(baseUrl + 'staffs', requestOptions)
-    .then(res => res.json)
-    .then(res => {
-      dispatch(staffsPostSuccess(res));
-      return res.addStaffs;
-    })
-    .catch(error => {
-      dispatch(staffsPostError(error));
-    });
+      fetch(baseUrl + 'staffs', requestOptions)
+        .then(res => res.json)
+        .then(res => {
+          dispatch(staffsPostSuccess(res));
+          return res.addStaffs;
+        })
+        .catch(error => {
+          dispatch(staffsPostError(error));
+        });
+    }
+  )
 }

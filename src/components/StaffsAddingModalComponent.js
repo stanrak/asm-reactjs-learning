@@ -3,14 +3,12 @@ import {
   Button, Label, Modal, ModalHeader, ModalBody, Col, Row
 } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { postStaff } from '../redux/fetch';
+import { connect } from 'react-redux';
 
-const defaultValue = {
-  salaryScale: 1,
-  annualLeave: 0,
-  overTime: 0,
-  salary: 3000000,
-  image: '/assets/images/alberto.png'
-}
+const mapDispatchToProps = dispatch => ({
+  postStaff: newStaff => { dispatch(postStaff(newStaff)) }
+});
 
 const required = val => val;
 const minLength = len => val => val && val.length >= len;
@@ -33,9 +31,15 @@ class StaffsAddingModal extends Component {
   }
 
   handleSubmit(values) {
-    values.preventDefault();
-    // for these unrequired fields, use default value
-    let { salaryScale, annualLeave, overTime, salary, image } = defaultValue;
+    const { postStaff } = this.props;
+    console.log("postStaff la: ", postStaff);
+    // for these unrequired fields, use default
+    let
+      salaryScale = 1,
+      annualLeave = 0,
+      overTime = 0,
+      salary = 3000000,
+      image = '/assets/images/alberto.png';
     if (values.salaryScale !== undefined) { salaryScale = values.salaryScale };
     if (values.annualLeave !== undefined) { annualLeave = values.annualLeave };
     if (values.overTime !== undefined) { overTime = values.overTime };
@@ -46,16 +50,14 @@ class StaffsAddingModal extends Component {
       doB: values.doB,
       salaryScale: salaryScale,
       startDate: values.startDate,
-      department: {
-        name: values.department
-      },
+      departmentId: values.department,
       annualLeave: annualLeave,
       overTime: overTime,
       salary: salary,
       image: image
     };
 
-    this.props.onAdd(newStaff);
+    postStaff(newStaff);
   }
 
   render() {
@@ -67,7 +69,7 @@ class StaffsAddingModal extends Component {
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader>Thêm nhân viên</ModalHeader>
           <ModalBody>
-            <LocalForm onSubmit={staff => this.handleSubmit(staff)}>
+            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
               <Row className="form-group align-items-center">
                 <Label htmlFor="name" md={4}>Tên nhân viên:</Label>
                 <Col md={8}>
@@ -137,19 +139,13 @@ class StaffsAddingModal extends Component {
               <Row className="form-group align-items-center">
                 <Label htmlFor="department" md={4}>Phòng ban:</Label>
                 <Col md={8}>
-                  <Control.text model=".department" id="department" name="department"
-                    placeholder="Phòng ban"
-                    className="w-100"
-                    validators={{required}}
-                  />
-                  <Errors
-                    className='text-danger'
-                    model=".department"
-                    show="touched"
-                    messages={{
-                      required: "Cần nhập thông tin. "
-                    }}
-                  />
+                  <Control.select model=".department" id="department" name="department" className="w-100" >
+                    <option value="Dept01" selected>Sale</option>
+                    <option value="Dept02">HR</option>
+                    <option value="Dept03">Marketing</option>
+                    <option value="Dept04">IT</option>
+                    <option value="Dept05">Finance</option>
+                  </Control.select>
                 </Col>
               </Row>
               <Row className="form-group align-items-center">
@@ -180,7 +176,7 @@ class StaffsAddingModal extends Component {
                 </Col>
               </Row>
               <Row className="form-group justify-content-center">
-                <Button color="secondary" type="submit">Thêm</Button>
+                <Button color="secondary" type="submit" onClick={this.toggleModal}>Thêm</Button>
               </Row>
             </LocalForm>
           </ModalBody>
@@ -190,4 +186,4 @@ class StaffsAddingModal extends Component {
   }
 }
 
-export default StaffsAddingModal;
+export default connect(null, mapDispatchToProps)(StaffsAddingModal);

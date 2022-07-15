@@ -46,6 +46,7 @@ class StaffList extends Component {
         <div className='row m-3 justify-content-between'>
           <h2 className='d-flex m-0'>Danh sách nhân viên</h2>
           <StaffsAddingModal />
+          <StaffDeleteModal staffList={staffs} />
         </div>
         <div className='row m-3'>
           {staff}
